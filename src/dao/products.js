@@ -4,11 +4,6 @@ export default class Products {
   constructor() {}
 
 
-  postProduct = async (product) => {
-    let result = await productModel.create(product);
-    console.log("\u001b[1;36m Producto guardado");
-    return result;
-  };
 
 
   getAllProducts = async () => {
@@ -16,13 +11,16 @@ export default class Products {
     return result;
   };
 
-  getProductId = async (idProduct) => {
-    let result = await productModel.findById(idProduct);
-    console.log("\u001b[1;36m Producto Encontrado");
-    return result;
-  
-  }
-
+ 
+  getProductById = async (id) => {
+    try {
+        const result = await productsModel.findById(id);
+        if(!result) return {status: 'Error', message: 'Error al buscar producto'};
+        return result;
+    } catch (error) {
+        throw new Error(' Error al buscar productos' + error)
+    }
+};
 
   //Definir el limite de productos a visualizar.
   getProductsLimit = async (limit) => {
@@ -78,14 +76,24 @@ export default class Products {
     let result = await productModel.findByIdAndUpdate(idProduct, product, {
       new: true,
     }); // actualizar
-    console.log("\u001b[1;36m Producto actualizado");
+    console.log(" Producto actualizado");
     return result;
   };
 
 
   deleteProduct = async (idProduct) => {
     let result = await productModel.deleteOne({ _id: idProduct });
-    console.log("\u001b[1;31m Producto Eliminado");
+    console.log(" Producto Eliminado");
     return result;
   };
+//agregar producto
+  createProduct = async (title, description, code, price, stock, category) => {
+    try {
+        const result = await productsModel.create({ title, description, code, price, stock, category });
+        if (!result) return { status: 'Error', message: 'No se pudo agregar producto ' };
+        return result;
+    } catch (error) {
+        throw new Error(' Error al agregar producto')
+    }
+  }
 }

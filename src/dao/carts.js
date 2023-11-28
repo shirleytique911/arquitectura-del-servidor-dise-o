@@ -9,10 +9,10 @@ export default class Cart {
   getAllCart = async () => {
     try {
       let result = await cartModel.find().lean();
-      console.log("\u001b[1;36m Carritos Cargados");
+      console.log(" Carritos Cargados");
       return result;
     } catch (error) {
-      console.log("\u001b[1;31m Error al cargar carritos");
+      console.log(" Error al cargar carritos");
     }
   };
 
@@ -20,10 +20,10 @@ export default class Cart {
   getCartId = async (idCart) => {
     try {
       const cart = await cartModel.findById(idCart);
-      console.log("\u001b[1;36m Carrito Encontrado: ");
+      console.log("Carrito Encontrado: ");
       return cart;
     } catch (error) {
-      console.log("\u001b[1;31m Carrito NO Encontrado");
+      console.log(" Carrito NO Encontrado");
     }
   };
 
@@ -43,7 +43,7 @@ export default class Cart {
   //Actualizar un carrito con determinado id
   updateCart = async (idCart, cart) => {
     let result = await cartModel.findByIdAndUpdate(idCart, cart, { new: true }); //Entrego el id y entrego la data que debo actualizar
-    console.log("\u001b[1;36m Cart actualizado");
+    console.log(" Cart actualizado");
     return result;
   };
 
@@ -51,7 +51,7 @@ export default class Cart {
   //Eliminar el carrito 
   deleteCart = async (idCart) => {
     let result = await cartModel.deleteOne({ _id: `${idCart}` });
-    console.log("\u001b[1;31m Cart Eliminado");
+    console.log(" Cart Eliminado");
     return result;
   };
 
@@ -75,7 +75,7 @@ export default class Cart {
         });
       }
       await cart.save();
-      console.log("\u001b[1;36m Producto Agregado al carrito");
+      console.log(" Producto Agregado al carrito");
       return cart;
     } catch (error) {
       throw "Error al insertar producto en carrito" + error;

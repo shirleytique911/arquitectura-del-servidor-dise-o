@@ -18,7 +18,7 @@ cartRouter.get("/", async (req, res) => {
     let carts = await cartManager.getAllCart();
     res.send({ result: "sucess", payload: carts });
   } catch (error) {
-    console.log("\u001b[1;34m Error al buscar carritos" + error);
+    console.log(" Error al buscar carritos" + error);
   }
 });
 
@@ -29,7 +29,7 @@ cartRouter.get("/:idCart", async (req, res) => {
     let carts = await cartManager.getCartId(idCart);
     res.send({ result: "sucess", payload: carts });
   } catch (error) {
-    console.log("\u001b[1;34m Carrito no encontrado" + error);
+    console.log(" Carrito no encontrado" + error);
   }
 });
 
@@ -53,10 +53,10 @@ cartRouter.delete("/:idCart", async (req, res) => {
   let idCart = req.params.idCart;
   try {
     let carts = await cartManager.deleteCart(idCart);
-    console.log("\u001b[1;34m Carrito eliminado" + error);
+    console.log(" Carrito eliminado" + error);
     res.send({ result: "sucess", payload: carts });
   } catch (error) {
-    console.log("\u001b[1;34m Error al eliminar carrito " + error);
+    console.log(" Error al eliminar carrito " + error);
   }
 });
 
@@ -70,7 +70,7 @@ cartRouter.post("/:idCart/products/:idProducts", async (req, res) => {
     let carts = await cartManager.insertProductCart(idCart, idProduct);
     res.send({ result: "sucess", payload: carts });
   } catch (error) {
-    console.log("\u001b[1;34m Error al insertar producto al carrito " + error);
+    console.log("Error al insertar producto al carrito " + error);
   }
 });
 
@@ -89,7 +89,7 @@ cartRouter.put("/:idCart/products/:idProduct", async (req, res) => {
     res.send({ result: "sucess", payload: result });
   } catch (error) {
     console.log(
-      "\u001b[1;34m Error al actualizar cantidad de producto en el carrito " +
+      "Error al actualizar cantidad de producto en el carrito " +
         error
     );
   }

@@ -12,23 +12,23 @@ export default class Users {
   getUserById = async (idUser) => {
     try {
       const user = await userModel.findById(idUser);
-      console.log("\u001b[1;36m User found ");
+      console.log(" User found ");
       return user;
     } catch (error) {
-      console.log("\u001b[1;31m User not found");
+      console.log(" User not found");
     }
   };
 
 
   saveUser = async (user) => {
     let result = await userModel.create(user);
-    console.log("\u001b[1;36m User create sucess");
+    console.log("User create sucess");
     return result;
   };
 
   deleteUser = async (idUser) => {
     let result = await userModel.findByIdAndDelete(idUser);
-    console.log("\u001b[1;31m User Deleted");
+    console.log(" User Deleted");
     return result;
   };
 }

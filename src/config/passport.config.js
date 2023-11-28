@@ -1,5 +1,5 @@
 import passport from "passport";
-import local from "passport-local"
+import local from "passport-local";
 import Users from "../dao/users.js";
 import { createHash, generateToken, isValidPassword } from "../utils.js";
 import gitHubStrategy from "passport-github2";
@@ -13,7 +13,7 @@ const LocalStrategy = local.Strategy;
 
 const userService = new Users();
 
-
+//!COOKIE EXTRACTOR
 
 const cookieExtractor = req =>{
   let token = null
@@ -23,6 +23,7 @@ const cookieExtractor = req =>{
   return token
 }
 
+//! STRATEGY PASSPORT
 export const initializatedPassport = () => {
   //* JWT
 
@@ -30,8 +31,8 @@ export const initializatedPassport = () => {
     "jwt",
     new JwtStrategy(
       {
-        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-        secretOrKey: config.secretKey,
+        jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: config.secretOrKey,
       },
       async (jwt_payload, done) => {
         try {
@@ -43,7 +44,7 @@ export const initializatedPassport = () => {
     )
   );
 
-
+  //* -----REGISTER
 
   passport.use(
     "register",
@@ -81,7 +82,7 @@ export const initializatedPassport = () => {
     )
   );
 
-  //Login
+  //* -----LOGIN
 
   passport.use(
     "login",
@@ -105,7 +106,7 @@ export const initializatedPassport = () => {
     )
   );
 
- 
+  //* SERIALIZE - DESERIALIZE
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
@@ -120,7 +121,7 @@ export const initializatedPassport = () => {
   });
 };
 
-// GITHUB
+//! STRATEGY GITHUB
 export const initPassportGit = () => {
   passport.serializeUser((user, done) => {
     done(null, user._id);

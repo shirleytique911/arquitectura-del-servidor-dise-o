@@ -6,7 +6,7 @@ export default class Message {
 
   sendMessage = async (message) => {
     let result = await messageModel.create(message);
-    console.log("\u001b[1;36m Mensaje guardado");
+    console.log("Mensaje guardado");
     return result;
   };
 
