@@ -13,7 +13,7 @@ const LocalStrategy = local.Strategy;
 
 const userService = new Users();
 
-//!COOKIE EXTRACTOR
+// !COOKIE EXTRACTOR
 
 const cookieExtractor = req =>{
   let token = null
@@ -25,7 +25,7 @@ const cookieExtractor = req =>{
 
 //! STRATEGY PASSPORT
 export const initializatedPassport = () => {
-  //* JWT
+  // * JWT
 
   passport.use(
     "jwt",

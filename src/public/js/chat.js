@@ -22,7 +22,7 @@ document
         const responseData = await response.json();
         const successMessage = responseData.message;
 
-        console.log("\u001b[1;35m Mensaje Enviado").then((result) => {
+        console.log(" Mensaje Enviado").then((result) => {
           if (result.isConfirmed) {
             location.reload();
           }

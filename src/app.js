@@ -50,18 +50,18 @@ mongoose
   });
 
 //**** SESSIONS IN DATABASE */
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl:
-        config.mongoUrl,
-      ttl: 3000,
-    }),
-    secret: "clave",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   session({
+//     store: MongoStore.create({
+//       mongoUrl:
+//         config.mongoUrl,
+//       ttl: 3000,
+//     }),
+//     secret: "clave",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 //! STRATEGY PASSPORT
 initializatedPassport();
