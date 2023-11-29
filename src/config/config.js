@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -8,6 +8,6 @@ export default {
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   callbackUrl: process.env.CALLBACK_URL,
-  secretOrKey: process.env.SECRET_KEY,
+  secretKey: process.env.SECRET_KEY,
   keyToken: process.env.KEY_TOKEN
 };
