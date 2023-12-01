@@ -29,20 +29,19 @@ sessionRouter.post(
     failureMessage: true,
   }),
   (req, res) => {
-    const serialUser = {
+    const user = {
       id: req.user._id,
       name: `${req.user.first_name}`,
       role: req.user.role,
       email: req.user.email,
     };
-    req.session.user = serialUser;
-    const access_token = generateToken(serialUser);
-    res
-      .cookie("access_token", access_token, { maxAge: 10000 })
-      .send({ status: "success", payload: serialUser , token : access_token });
+    req.session.user = user;
+    const access_token = generateToken(user);
+    res.setDefaultEncoding({status: "success",access_token})
+      
   }
 );
-sessionRouter.get("/failedloginauth", async (req, res) => {
+sessionRouter.get("/", async (req, res) => {
   console.log("Login failed.");
   res.status(400).send({ status: 400, error: "Failed Login." });
 });
@@ -60,10 +59,7 @@ sessionRouter.get("/logout", async (req, res) => {
 
 //! GITHUB
 
-sessionRouter.get(
-  "/github",
-  passport.authenticate("github", { scope: ["user: email"] }),
-  async (req, res) => {}
+sessionRouter.get("/github",passport.authenticate("github", { scope: ["user: email"] }), async (req, res) => {}
 );
 
 sessionRouter.get(

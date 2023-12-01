@@ -31,7 +31,7 @@ export const initializatedPassport = () => {
     new JwtStrategy(
       {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey:config.secretKey ,
+        secretOrKey: process.env.SECRET_KEY ,
       },
       async (jwt_payload, done) => {
         try {
@@ -138,9 +138,9 @@ export const initPassportGit = () => {
     "github",
     new gitHubStrategy(
       {
-        clientID:config.clientId,
-        clientSecret:config.clientSecret ,
-        callbackURL:config.callbackUrl,
+        clientID:"Iv1.087161e7368a91f3",
+        clientSecret:"db879236917eae22557e992e615fb78bc4606186",
+        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
 
       async (accessToken, refreshToken, profile, done) => {
@@ -158,10 +158,10 @@ export const initPassportGit = () => {
             let newUser = {
               first_name: profile._json.name || "",
               last_name: "",
-              email,
+              email: profile_json.email,
               password: "",
             };
-            let result = await userService.saveUser(newUser);
+            let result = await userService.create(newUser);
             return done(null, result);
           } else {
             return done(null, user);

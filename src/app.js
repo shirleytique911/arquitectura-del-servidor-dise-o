@@ -64,6 +64,7 @@ initPassportGit()
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 // //**** HANDLEBARS */
 
 app.engine("handlebars", handlebars.engine());
@@ -71,13 +72,15 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 // ? **** RUTAS CRUD - THUNDERCLIENT
-
+app.use("/session", sessionRouter);
 app.use("/products", productRouter);
 app.use("/cart", cartRouter);
 app.use("/", viewsRouter);
 app.use("/message", messageRouter);
-app.use("/session", sessionRouter);
+
 app.use("/users", usersRouter);
+
+
 
 //**** UP SERVER  */
 app.listen(PORT, () => {

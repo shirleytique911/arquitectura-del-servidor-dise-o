@@ -37,7 +37,7 @@ export const authorizedToken = (req, res, next) => {
     //jwt verifica el token existente y corrobora si es un token valido, alterado , expirado.
     console.log(error);
     if (error)
-      return res.status(401).send({ status: "error", error: "Not authorized" });
+      return res.status(403).send({ status: "error", error: "Not authorized" });
     req.user = credentials.user;
     next();
   });
