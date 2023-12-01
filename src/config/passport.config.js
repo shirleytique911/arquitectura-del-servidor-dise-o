@@ -26,13 +26,12 @@ const cookieExtractor = req =>{
 //! STRATEGY PASSPORT
 export const initializatedPassport = () => {
   // * JWT
-
   passport.use(
     "jwt",
     new JwtStrategy(
       {
-        jwtFromRequest:ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: config.secretOrKey,
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey:config.secretKey ,
       },
       async (jwt_payload, done) => {
         try {
@@ -43,6 +42,10 @@ export const initializatedPassport = () => {
       }
     )
   );
+  
+
+
+  
 
   //* -----REGISTER
 
@@ -71,7 +74,7 @@ export const initializatedPassport = () => {
 
           //* Token
           const accessToken = generateToken(user);
-          console.log(acessToken);
+          console.log(accessToken);
           res.send({ status: "sucess", accessToken });
 
           return done(null, result);
@@ -135,18 +138,18 @@ export const initPassportGit = () => {
     "github",
     new gitHubStrategy(
       {
-        clientID: config.clientId,
-        clientSecret: config.clientSecret,
-        callbackURL: config.callbackUrl,
+        clientID:config.clientId,
+        clientSecret:config.clientSecret ,
+        callbackURL:config.callbackUrl,
       },
 
       async (accessToken, refreshToken, profile, done) => {
         try {
           let email = "";
-          if (profile._json.email) {
+          if (accessToken,refreshToken,profile._json.email) {
             email = profile._json.email;
           } else {
-            email = `GitHubUser-${profile._json.login}`;
+            email = `GitHubUser-${profile._json.email}`;
           }
 
           let user = await userService.getUserById({ email });
