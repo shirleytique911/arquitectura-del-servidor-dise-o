@@ -1,88 +1,43 @@
-//Dependencias
-import express from "express";
-import session from "express-session";
-import MongoStore from "connect-mongo";
-import mongoose from "mongoose";
-import handlebars from "express-handlebars";
-import chalk from "chalk";
-import FileStore from "session-file-store";
-import passport from "passport";
-import cookieParser from "cookie-parser";
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require("mongoose")
+const http = require("http");
+const dotenv = require('dotenv');
 
-// Fuentes de metodos, informacion y vistas.
-import __dirname from "./utils.js";
-import cartRouter from "./routes/cart.routes.js";
-import productRouter from "./routes/product.routes.js";
-import viewsRouter from "./routes/view.routes.js";
-import messageRouter from "./routes/message.routes.js";
-import sessionRouter from "./routes/sessions.routes.js";
-import usersRouter from "./routes/users.routes.js";
-import {initializatedPassport, initPassportGit} from "./config/passport.config.js";
-import config from "./config/config.js";
+// Cargar variables de entorno desde el archivo .env
+dotenv.config();
+
+// Importar rutas
+const productsRouter = require("./routes/productsRouter.js");
 
 
-//!**** SERVER
-//Inicializar variables del Servidor
+
 const app = express();
-const PORT = 8080;
-const fileStorage = FileStore(session);
+const server = http.createServer(app)
+const port = 3000; // Puedes usar el puerto que desees
 
-//Decirle al servidor que trabajaremos con JSON y que usara URL.
-app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-//middleware
-app.use(express.static(__dirname + "/public")); //Rutas
-app.use(cookieParser());
 
-// //!**** CONECT DATABASE  */
-// //Validar conexion a la base de datos
-mongoose
-  .connect(config.mongoUrl,{ useNewUrlParser: true, useUnifiedTopology: true }
-  )
-  .then(() => {
-    console.log(" Connection successful at the database");
-  })
-  .catch((error) => {
-    console.error("Connection failed at the database" + error);
-  });
+if (!process.env.MONGO_URL) {
+  console.error("La variable MONGO_URL no está definida en el archivo .env");
+  process.exit(1); // Salir de la aplicación si la variable no está definida
+}
 
-// //**** SESSIONS IN DATABASE */
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl:config.mongoUrl,
-      ttl: 3000,
-    }),
-    secret: config.secretKey,
-    resave: false,
-    saveUninitialized: false
-  }));
+mongoose.connect(process.env.MONGO_URL)
+    .then(()=>{
+        console.log("conectado a la base de datos")
+    })
+    .catch(error =>{
+        console.log("error al conectarse a la base de datos", error)
+    })
 
-// // //! STRATEGY PASSPORT
-initializatedPassport();
-initPassportGit()
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-// //**** HANDLEBARS */
-
-app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
-
-// ? **** RUTAS CRUD - THUNDERCLIENT
-app.use("/session", sessionRouter);
-app.use("/products", productRouter);
-app.use("/cart", cartRouter);
-app.use("/", viewsRouter);
-app.use("/message", messageRouter);
-
-app.use("/users", usersRouter);
-
-
-
-//**** UP SERVER  */
-app.listen(PORT, () => {
-  console.log(chalk.bgYellowBright.black.bold(`SERVER UP : ${PORT}`));
+server.listen(port, ()=>{
+    console.log(`servidor corriendo en puerto ${port}`)
 });
+
+
+
+// Configura las rutas
+app.use("/", productsRouter);
+
